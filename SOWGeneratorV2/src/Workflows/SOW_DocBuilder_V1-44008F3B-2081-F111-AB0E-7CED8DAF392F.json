@@ -1,0 +1,614 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline-1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ag_SharePointConnector"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_wordonlinebusiness-1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ag_WordOnlineConnector"
+        },
+        "api": {
+          "name": "shared_wordonlinebusiness"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "SOW Site (ag_SOWSite)": {
+          "defaultValue": "https://productivity365.sharepoint.com/sites/P365-SOW-Central",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_SOWSite"
+          }
+        },
+        "Partner-Logos (ag_shared_sharepointonline_871cde7dbd6b4c7882f681205dc002c2)": {
+          "defaultValue": "ebd531d2-db46-439d-a918-9a448417561c",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_shared_sharepointonline_871cde7dbd6b4c7882f681205dc002c2"
+          }
+        },
+        "Partners (ag_shared_sharepointonline_dc98c069cd0743368b8f16a8c3cfc5fa)": {
+          "defaultValue": "c2b47177-a0d3-4a46-baf6-22a72c899b5e",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_shared_sharepointonline_dc98c069cd0743368b8f16a8c3cfc5fa"
+          }
+        },
+        "SOW Templates (ag_shared_sharepointonline_1a7d8dbe27fb45d2b63b454babcb8f4f)": {
+          "defaultValue": "57106f08-e781-4f5b-807d-e2b0693cea02",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_shared_sharepointonline_1a7d8dbe27fb45d2b63b454babcb8f4f"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "67c6e598-63a7-459c-9b46-15e7bf436050"
+          },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "description": "Please enter your input",
+                  "title": "PartnerCode",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_1": {
+                  "description": "Please enter your input",
+                  "title": "ClientName",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_2": {
+                  "description": "Please enter your input",
+                  "title": "ClientEmail",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_3": {
+                  "description": "Please enter your input",
+                  "title": "PrimaryContact",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_4": {
+                  "description": "Please enter your input",
+                  "title": "ServiceArea",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_5": {
+                  "description": "Please enter your input",
+                  "title": "SupportHours",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_6": {
+                  "description": "Please enter your input",
+                  "title": "Duration",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_7": {
+                  "description": "Please enter your input",
+                  "title": "Environment",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_8": {
+                  "description": "Please enter your input",
+                  "title": "EngagementBrief",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_9": {
+                  "description": "Please enter your input",
+                  "title": "Pricing",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_10": {
+                  "description": "Please enter your input",
+                  "title": "PaymentTerms",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_11": {
+                  "description": "Please enter your input",
+                  "title": "PartnerId",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_12": {
+                  "description": "Please enter your input",
+                  "title": "ExecutiveSummary",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_13": {
+                  "description": "Please enter your input",
+                  "title": "Objectives",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_14": {
+                  "description": "Please enter your input",
+                  "title": "ScopeOfServices",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_15": {
+                  "description": "Please enter your input",
+                  "title": "PhasedRoadmap",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_16": {
+                  "description": "Please enter your input",
+                  "title": "GovernanceModel",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_17": {
+                  "description": "Please enter your input",
+                  "title": "Assumptions",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_18": {
+                  "description": "Please enter your input",
+                  "title": "AcceptanceCriteria",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_19": {
+                  "description": "Please enter your input",
+                  "title": "OutOfScope",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_20": {
+                  "description": "Please enter your input",
+                  "title": "ChangeControl",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_21": {
+                  "description": "Please enter your input",
+                  "title": "RisksAndMitigations",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_22": {
+                  "description": "Please enter your input",
+                  "title": "EngagementType",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_23": {
+                  "description": "Please enter your input",
+                  "title": "ClientSignatoryName",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_24": {
+                  "description": "Please enter your input",
+                  "title": "ClientSignatoryTitle",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_25": {
+                  "description": "Please enter your input",
+                  "title": "SOWVersion",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_26": {
+                  "description": "Please enter your input",
+                  "title": "SOWDate",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_27": {
+                  "description": "Please enter your input",
+                  "title": "DocumentHeader",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_28": {
+                  "description": "Please enter your input",
+                  "title": "DocumentAuthorization",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_29": {
+                  "description": "Please enter your input",
+                  "title": "CommercialTerms",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2",
+                "text_3",
+                "text_4",
+                "text_5",
+                "text_6",
+                "text_7",
+                "text_8",
+                "text_9",
+                "text_10",
+                "text_11",
+                "text_12",
+                "text_13",
+                "text_14",
+                "text_15",
+                "text_16",
+                "text_17",
+                "text_18",
+                "text_19",
+                "text_20",
+                "text_21",
+                "text_22",
+                "text_23",
+                "text_24",
+                "text_25",
+                "text_26",
+                "text_27",
+                "text_28",
+                "text_29"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Respond_to_a_Power_App_or_flow": {
+          "runAfter": {
+            "URL": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "db2eec83-0544-434e-adcf-a2fbc8b49c24"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sowdocurl": {
+                  "title": "SOWDocURL",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                },
+                "sowfilename": {
+                  "title": "SOWFileName",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                },
+                "sowid": {
+                  "title": "SOWId",
+                  "x-ms-dynamically-added": true,
+                  "type": "number"
+                },
+                "sowgeneratedid": {
+                  "title": "SOWGeneratedId",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              },
+              "additionalProperties": {}
+            },
+            "statusCode": 200,
+            "body": {
+              "sowdocurl": "@{outputs('URL')}",
+              "sowfilename": "@{outputs('Create_file')?['body/DisplayName']}",
+              "sowid": "@outputs('Create_file')?['body/ItemId']",
+              "sowgeneratedid": "@{outputs('SOW_ID')}"
+            }
+          }
+        },
+        "Get_Partner": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "47199235-a127-42dc-87e2-f1a630b56ca8"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "table": "@parameters('Partners (ag_shared_sharepointonline_dc98c069cd0743368b8f16a8c3cfc5fa)')",
+              "id": "@triggerBody()?['text_11']"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "GetItem",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          }
+        },
+        "Get_files_(properties_only)": {
+          "runAfter": {
+            "Get_Partner": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f81f11ba-1f95-42a1-b0ff-d9826841e66d"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "table": "@parameters('Partner-Logos (ag_shared_sharepointonline_871cde7dbd6b4c7882f681205dc002c2)')",
+              "$filter": "PartnerCode/PartnerCode eq '@{outputs('Get_Partner')?['body/PartnerCode']}'"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "GetFileItems",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          }
+        },
+        "Get_file_content": {
+          "runAfter": {
+            "Get_files_(properties_only)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ae1095ce-a217-48e7-a6bc-bc9848a2588c"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "id": "@first(body('Get_files_(properties_only)')?['value'])?['{Identifier}']",
+              "inferContentType": true
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "GetFileContent",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          }
+        },
+        "Get_files_(properties_only)_1": {
+          "runAfter": {
+            "Get_file_content": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9f6604ab-ec43-4cf0-b989-8212502e55aa"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "table": "@parameters('SOW Templates (ag_shared_sharepointonline_1a7d8dbe27fb45d2b63b454babcb8f4f)')"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "GetFileItems",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          }
+        },
+        "Populate_a_Microsoft_Word_template": {
+          "runAfter": {
+            "Get_file_content_1": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "01EQWPHCOT7O5XQOQ7E5DJP7OFXSZLWZWI": "/SOW_Template.docx",
+            "operationMetadataId": "842ac90f-7255-46b0-844e-4162bba025f2"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "source": "@parameters('SOW Site (ag_SOWSite)')",
+              "drive": "b!vGvTia4MekOB3-8RxDjj0GeWJqrqka9MgPYFwcqkbygIbxBXgedbT4B94rBpPOoC",
+              "file": "01EQWPHCOT7O5XQOQ7E5DJP7OFXSZLWZWI",
+              "dynamicFileSchema/100001": "@outputs('Get_Partner')?['body/Title']",
+              "dynamicFileSchema/100002": "@triggerBody()?['text_1']",
+              "dynamicFileSchema/100003": "@outputs('SOW_ID')",
+              "dynamicFileSchema/100004": "@triggerBody()?['text_25']",
+              "dynamicFileSchema/100005": "@triggerBody()?['text_26']",
+              "dynamicFileSchema/100006": "@triggerBody()?['text_22']",
+              "dynamicFileSchema/100007": "@triggerBody()?['text_5']",
+              "dynamicFileSchema/100008": "@triggerBody()?['text_7']",
+              "dynamicFileSchema/100010": "@triggerBody()?['text_27']",
+              "dynamicFileSchema/100011": "@triggerBody()?['text_12']",
+              "dynamicFileSchema/100012": "@triggerBody()?['text_13']",
+              "dynamicFileSchema/100013": "@triggerBody()?['text_14']",
+              "dynamicFileSchema/100014": "@triggerBody()?['text_15']",
+              "dynamicFileSchema/100015": "@triggerBody()?['text_16']",
+              "dynamicFileSchema/100016": "@triggerBody()?['text_17']",
+              "dynamicFileSchema/100017": "@triggerBody()?['text_18']",
+              "dynamicFileSchema/100018": "@triggerBody()?['text_19']",
+              "dynamicFileSchema/100019": "@triggerBody()?['text_20']",
+              "dynamicFileSchema/100020": "@triggerBody()?['text_21']",
+              "dynamicFileSchema/100021": "@triggerBody()?['text_29']",
+              "dynamicFileSchema/100022": "@triggerBody()?['text_28']",
+              "dynamicFileSchema/100023": "@outputs('Get_Partner')?['body/ContactName']",
+              "dynamicFileSchema/100024": "@triggerBody()?['text_1']",
+              "dynamicFileSchema/100025": "@outputs('Get_Partner')?['body/ContactName']",
+              "dynamicFileSchema/100026": "@triggerBody()?['text_23']",
+              "dynamicFileSchema/100027": "@outputs('Get_Partner')?['body/ContactRole']",
+              "dynamicFileSchema/100028": "@triggerBody()?['text_24']",
+              "dynamicFileSchema/500001": "@body('Get_file_content')"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_wordonlinebusiness",
+              "operationId": "CreateFileItem",
+              "connectionName": "shared_wordonlinebusiness-1"
+            }
+          }
+        },
+        "Get_file_content_1": {
+          "runAfter": {
+            "SOW_ID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9cc4a88f-ebd5-4a52-8e18-60152de97f9c"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "id": "@first(body('Get_files_(properties_only)_1')?['value'])?['{Identifier}']",
+              "inferContentType": true
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "GetFileContent",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          }
+        },
+        "Compose": {
+          "runAfter": {
+            "Get_files_(properties_only)_1": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "30e7a5b7-64cc-471e-b116-47512a80be0e"
+          },
+          "type": "Compose",
+          "inputs": "@first(body('Get_files_(properties_only)_1')?['value'])"
+        },
+        "FileName": {
+          "runAfter": {
+            "Populate_a_Microsoft_Word_template": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c8b87b5d-e42d-46a0-89c5-4216ef7c3310"
+          },
+          "type": "Compose",
+          "inputs": "@concat(\r\n'SOW_',\r\ntriggerBody()?['text'],\r\n'_',\r\nreplace(triggerBody()?['text_1'],' ',''),\r\n'_',\r\nformatDateTime(utcNow(),'MMyyyddssmm'),\r\n'.docx'\r\n)"
+        },
+        "Create_file": {
+          "runAfter": {
+            "FileName": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "cc073cd2-c354-44b9-a6f9-9a7a280c7baf"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "folderPath": "/Shared Documents",
+              "name": "@outputs('FileName')",
+              "body": "@body('Populate_a_Microsoft_Word_template')"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "CreateFile",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          },
+          "runtimeConfiguration": {
+            "contentTransfer": {
+              "transferMode": "Chunked"
+            }
+          }
+        },
+        "URL": {
+          "runAfter": {
+            "Create_file": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0b075d64-3b55-48f7-9414-50a631419d94"
+          },
+          "type": "Compose",
+          "inputs": "@concat(\r\n'https://productivity365.sharepoint.com/sites/P365-SOW-Central',\r\noutputs('Create_file')?['body/Path']\r\n)"
+        },
+        "SOW_ID": {
+          "runAfter": {
+            "Compose": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "b8c8af5d-68ba-44e0-b45d-6df7ebf2c78e"
+          },
+          "type": "Compose",
+          "inputs": "@concat('SOW_',triggerBody()?['text'],'_',triggerBody()?['text_1'],'_',formatDateTime(utcNow(),'yyyyMMddHHmmss'))"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

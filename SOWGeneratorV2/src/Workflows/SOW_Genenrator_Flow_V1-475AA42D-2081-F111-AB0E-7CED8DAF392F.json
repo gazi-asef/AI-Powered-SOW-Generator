@@ -1,0 +1,839 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline-1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "ag_SharePointConnector"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_keyvault-1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "ag_AzureKeyConnector"
+        },
+        "api": {
+          "name": "shared_keyvault"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "undefined",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "SOW Site (ag_SOWSite)": {
+          "defaultValue": "https://productivity365.sharepoint.com/sites/P365-SOW-Central",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_SOWSite"
+          }
+        },
+        "SOW Requests (ag_SOWRequests)": {
+          "defaultValue": "07a6d66a-cf41-49dc-ac86-1c7bba5320cf",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_SOWRequests"
+          }
+        },
+        "Partners (ag_shared_sharepointonline_dc98c069cd0743368b8f16a8c3cfc5fa)": {
+          "defaultValue": "c2b47177-a0d3-4a46-baf6-22a72c899b5e",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_shared_sharepointonline_dc98c069cd0743368b8f16a8c3cfc5fa"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "e25059a1-cb85-4ebf-9e42-643a29f68352"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "description": "Please enter your input",
+                  "title": "PartnerCode",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_1": {
+                  "description": "Please enter your input",
+                  "title": "ClientName",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_2": {
+                  "description": "Please enter your input",
+                  "title": "ClientEmail",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_3": {
+                  "description": "Please enter your input",
+                  "title": "PrimaryContact",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_4": {
+                  "description": "Please enter your input",
+                  "title": "ServiceAreas",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_5": {
+                  "description": "Please enter your input",
+                  "title": "SupportHours",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_6": {
+                  "description": "Please enter your input",
+                  "title": "Duration",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_7": {
+                  "description": "Please enter your input",
+                  "title": "Environment",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_8": {
+                  "description": "Please enter your input",
+                  "title": "EngagementBrief",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_9": {
+                  "description": "Please enter your input",
+                  "title": "Pricing",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_10": {
+                  "description": "Please enter your input",
+                  "title": "PaymentTerms",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_11": {
+                  "description": "Please enter your input",
+                  "title": "PartnerId",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_12": {
+                  "description": "Please enter your input",
+                  "title": "EngagementType",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_13": {
+                  "description": "Please enter your input",
+                  "title": "PricingModel",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "number": {
+                  "description": "Please enter a number",
+                  "title": "TotalValue",
+                  "type": "number",
+                  "x-ms-content-hint": "NUMBER",
+                  "x-ms-dynamically-added": true
+                },
+                "text_14": {
+                  "description": "Please enter your input",
+                  "title": "PhaseValues",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_15": {
+                  "description": "Please enter your input",
+                  "title": "ClientSignatoryName",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_16": {
+                  "description": "Please enter your input",
+                  "title": "ClientSignatoryTitle",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_17": {
+                  "description": "Please enter your input",
+                  "title": "SOWDate",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_18": {
+                  "description": "Please enter your input",
+                  "title": "Version",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_19": {
+                  "description": "Please enter your input",
+                  "title": "NumberOfPhases",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_20": {
+                  "description": "Please enter your input",
+                  "title": "SOWQuality",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2",
+                "text_3",
+                "text_4",
+                "text_5",
+                "text_6",
+                "text_7",
+                "text_8",
+                "text_9",
+                "text_10",
+                "text_11",
+                "text_12",
+                "text_13",
+                "number",
+                "text_14",
+                "text_15",
+                "text_16",
+                "text_17",
+                "text_18",
+                "text_19",
+                "text_20"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Get_item": {
+          "runAfter": {
+            "Initialize_variable": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "142e6b6d-4df3-408e-a971-c1be909b0579"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "table": "@parameters('Partners (ag_shared_sharepointonline_dc98c069cd0743368b8f16a8c3cfc5fa)')",
+              "id": "@triggerBody()?['text_11']"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "GetItem",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          }
+        },
+        "HTTP": {
+          "runAfter": {
+            "Switch": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4e892702-0ea7-4df2-b906-e9a50504255b"
+          },
+          "type": "Http",
+          "inputs": {
+            "uri": "https://api.anthropic.com/v1/messages",
+            "method": "POST",
+            "headers": {
+              "x-api-key": "@{outputs('Get_secret')?['body/value']}",
+              "anthropic-version": "2023-06-01",
+              "content-type": "application/json"
+            },
+            "body": "@variables('ClaudePrompt')",
+            "retryPolicy": {
+              "type": "none"
+            }
+          }
+        },
+        "Get_secret": {
+          "runAfter": {
+            "Get_item": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ce972fa6-d4d7-403b-a7d4-5b1e71a9abca"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "secretName": "powerplatformkey"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_keyvault",
+              "operationId": "GetSecret",
+              "connectionName": "shared_keyvault-1"
+            }
+          }
+        },
+        "Parse_JSON": {
+          "runAfter": {
+            "HTTP": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "b49b0cc5-c6ed-42c1-9c9c-a79b76761b03"
+          },
+          "type": "ParseJson",
+          "inputs": {
+            "content": "@body('HTTP')",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "content": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "text": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Compose_JSONString": {
+          "runAfter": {
+            "Parse_JSON": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "958df4cd-0cd8-4342-b103-ffb1668b8795"
+          },
+          "type": "Compose",
+          "inputs": "@last(body('Parse_JSON')?['content'])?['text']"
+        },
+        "Compose_2": {
+          "runAfter": {
+            "Compose_JSONString": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f8a3c6e8-77b4-4426-9c30-859d730c0c6b"
+          },
+          "type": "Compose",
+          "inputs": "@replace(\r\nreplace(\r\noutputs('Compose_JSONString'),\r\n'```json',\r\n''),\r\n'```',\r\n''\r\n)"
+        },
+        "Parse_JSON_Sections": {
+          "runAfter": {
+            "Compose_2": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "8c36782d-e379-4924-82f0-69957895b0af"
+          },
+          "type": "ParseJson",
+          "inputs": {
+            "content": "@json(outputs('Compose_2'))",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ExecutiveSummary": {
+                  "type": "string"
+                },
+                "Objectives": {
+                  "type": "string"
+                },
+                "ScopeOfServices": {
+                  "type": "string"
+                },
+                "PhasedRoadmap": {
+                  "type": "string"
+                },
+                "GovernanceModel": {
+                  "type": "string"
+                },
+                "Assumptions": {
+                  "type": "string"
+                },
+                "AcceptanceCriteria": {
+                  "type": "string"
+                },
+                "OutOfScope": {
+                  "type": "string"
+                },
+                "ChangeControl": {
+                  "type": "string"
+                },
+                "RisksAndMitigations": {
+                  "type": "string"
+                },
+                "CommercialTerms": {
+                  "type": "string"
+                },
+                "Deliverables": {
+                  "type": "string"
+                },
+                "DocumentAuthorisation": {
+                  "type": "string"
+                },
+                "DocumentHeader": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "Executive_Summary": {
+          "runAfter": {
+            "Parse_JSON_Sections": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "968e34c9-26c1-4d3d-8a8a-13d8450dac2c"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['ExecutiveSummary']"
+        },
+        "Objectives": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "2a433174-791a-4a89-b191-112f9459867c"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['Objectives']"
+        },
+        "Scope_Of_Services": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c029e97d-e444-4178-8307-4774277865f2"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['ScopeOfServices']"
+        },
+        "Phased_Roadmap": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "91fd1d04-91fb-4ae2-88b0-c876dbc2ca08"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['PhasedRoadmap']"
+        },
+        "Governance_Model": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "7147536a-85c3-4ae7-ae86-9fdb4ff8c69d"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['GovernanceModel']"
+        },
+        "Assumptions": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "8576b8ef-c827-4c5c-84cb-12e6a027f651"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['Assumptions']"
+        },
+        "Acceptance_Criteria": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a7ad8585-feb7-484d-b885-72c1132e287d"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['AcceptanceCriteria']"
+        },
+        "Out_Of_Scope": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "41c9e068-b417-4c6c-a406-7af306b23087"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['OutOfScope']"
+        },
+        "Change_Control": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5d32c6a6-8e4d-4a0c-83c9-535601ea9684"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['ChangeControl']"
+        },
+        "Risks_And_Mitigations": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "970f6281-b723-4f9e-a59e-a870facd7e89"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['RisksAndMitigations']"
+        },
+        "Create_item": {
+          "runAfter": {
+            "SOW_ID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1ea42b1a-b87c-401d-8358-bb5f50363c4a"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "table": "@parameters('SOW Requests (ag_SOWRequests)')",
+              "item/SupportHours": "@triggerBody()?['text_5']",
+              "item/TotalDuration": "@triggerBody()?['text_6']",
+              "item/NumberOfPhases": "@triggerBody()?['text_19']",
+              "item/EngagementBrief": "@triggerBody()?['text_8']",
+              "item/Title": "@outputs('SOW_ID')",
+              "item/Partner/Id": "@triggerBody()?['text_11']",
+              "item/ClientName": "@triggerBody()?['text_1']",
+              "item/ClientContact": "@triggerBody()?['text_1']",
+              "item/ClientEmail": "@triggerBody()?['text_2']",
+              "item/ServiceAreas/Value": "@triggerBody()?['text_4']",
+              "item/EngagementType/Value": "@triggerBody()?['text_12']",
+              "item/Environment/Value": "@triggerBody()?['text_7']",
+              "item/PricingModel/Value": "@triggerBody()?['text_13']",
+              "item/TotalValue": "@triggerBody()?['number']",
+              "item/PaymentTerms": "@triggerBody()?['text_10']",
+              "item/SOWDocURL": "@body('Run_a_Child_Flow')?['sowdocurl']",
+              "item/Status/Value": "Draft",
+              "item/GeneratedOn": "@utcNow()",
+              "item/PhaseValues": "@triggerBody()?['text_14']",
+              "item/SignatoryName": "@outputs('Get_item')?['body/ContactName']",
+              "item/SignatoryTitle": "@outputs('Get_item')?['body/ContactRole']",
+              "item/ClientSignatoryName": "@triggerBody()?['text_15']",
+              "item/ClientSignatoryTitle": "@triggerBody()?['text_16']",
+              "item/DocumentID/Id": "@body('Run_a_Child_Flow')?['sowid']"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "PostItem",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          }
+        },
+        "SOW_ID": {
+          "runAfter": {
+            "Run_a_Child_Flow": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e7f1f1bc-e13b-4b61-a33d-6a48cb0fb218"
+          },
+          "type": "Compose",
+          "inputs": "@body('Run_a_Child_Flow')?['sowgeneratedid']"
+        },
+        "Run_a_Child_Flow": {
+          "runAfter": {
+            "Objectives": [
+              "Succeeded"
+            ],
+            "Scope_Of_Services": [
+              "Succeeded"
+            ],
+            "Phased_Roadmap": [
+              "Succeeded"
+            ],
+            "Governance_Model": [
+              "Succeeded"
+            ],
+            "Assumptions": [
+              "Succeeded"
+            ],
+            "Acceptance_Criteria": [
+              "Succeeded"
+            ],
+            "Out_Of_Scope": [
+              "Succeeded"
+            ],
+            "Change_Control": [
+              "Succeeded"
+            ],
+            "Risks_And_Mitigations": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "acb9ca98-c1f2-4c56-be79-66de95cf1276"
+          },
+          "type": "Workflow",
+          "inputs": {
+            "host": {
+              "workflowReferenceName": "44008f3b-2081-f111-ab0e-7ced8daf392f"
+            },
+            "body": {
+              "text": "@triggerBody()?['text']",
+              "text_1": "@triggerBody()?['text_1']",
+              "text_2": "@triggerBody()?['text_2']",
+              "text_3": "@triggerBody()?['text_3']",
+              "text_4": "@triggerBody()?['text_4']",
+              "text_5": "@triggerBody()?['text_5']",
+              "text_6": "@triggerBody()?['text_6']",
+              "text_7": "@triggerBody()?['text_7']",
+              "text_8": "@triggerBody()?['text_8']",
+              "text_9": "@triggerBody()?['text_9']",
+              "text_10": "@triggerBody()?['text_10']",
+              "text_11": "@triggerBody()?['text_11']",
+              "text_12": "@outputs('Executive_Summary')",
+              "text_13": "@outputs('Objectives')",
+              "text_14": "@outputs('Scope_Of_Services')",
+              "text_15": "@outputs('Phased_Roadmap')",
+              "text_16": "@outputs('Governance_Model')",
+              "text_17": "@outputs('Assumptions')",
+              "text_18": "@outputs('Acceptance_Criteria')",
+              "text_19": "@outputs('Out_Of_Scope')",
+              "text_20": "@outputs('Change_Control')",
+              "text_21": "@outputs('Risks_And_Mitigations')",
+              "text_22": "@triggerBody()?['text_12']",
+              "text_23": "@triggerBody()?['text_15']",
+              "text_24": "@triggerBody()?['text_16']",
+              "text_25": "@triggerBody()?['text_18']",
+              "text_26": "@triggerBody()?['text_17']",
+              "text_27": "@body('Parse_JSON_Sections')?['DocumentHeader']",
+              "text_28": "@body('Parse_JSON_Sections')?['DocumentAuthorisation']",
+              "text_29": "@body('Parse_JSON_Sections')?['CommercialTerms']"
+            }
+          }
+        },
+        "Respond_to_a_Power_App_or_flow": {
+          "runAfter": {
+            "Create_item": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "bf0095bd-674f-4925-b8ac-fb52304c8c16"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "recordid": {
+                  "title": "RecordID",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                },
+                "fileid": {
+                  "title": "FileID",
+                  "x-ms-dynamically-added": true,
+                  "type": "number"
+                }
+              },
+              "additionalProperties": {}
+            },
+            "statusCode": 200,
+            "body": {
+              "recordid": "@{outputs('Create_item')?['body/ID']}",
+              "fileid": "@body('Run_a_Child_Flow')?['sowid']"
+            }
+          }
+        },
+        "Document_Authorization": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "57a2f2e2-5d21-4bd0-884d-e3ed58e2dd20"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['DocumentAuthorisation']"
+        },
+        "Commertial_Terms": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "966a7090-df3a-45f7-9e70-3b25e27b49c5"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['CommercialTerms']"
+        },
+        "Document_Header": {
+          "runAfter": {
+            "Executive_Summary": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f90385fe-c7dd-4a4c-8fe2-0abe560ce6d7"
+          },
+          "type": "Compose",
+          "inputs": "@body('Parse_JSON_Sections')?['DocumentHeader']"
+        },
+        "Switch": {
+          "runAfter": {
+            "Get_secret": [
+              "Succeeded"
+            ]
+          },
+          "cases": {
+            "Medium_Quality": {
+              "case": "Medium",
+              "actions": {
+                "Set_variable": {
+                  "metadata": {
+                    "operationMetadataId": "56dcd887-f487-4ee9-b667-9725f316da02"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "ClaudePrompt",
+                    "value": "{\n  \"model\": \"claude-sonnet-5\",\n  \"max_tokens\": 8000,\n  \"system\": \"You are a Senior Microsoft Solution Architect and Enterprise Proposal Writer with 15+ years of experience drafting formal Statements of Work for Microsoft Gold Partners. Return ONLY one valid JSON object. Never return markdown. Never return code fences. Never return explanations outside the JSON. Never return arrays or nested objects. Every property value MUST be a single string. Use '\\\\n• ' inside strings for bullet lists. Write in formal, enterprise, client-facing business English. Each section must be substantive, detailed, and written in complete, professional sentences — avoid short or generic phrases. The response MUST start with '{' and end with '}'.\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Generate a detailed, production-grade Microsoft Statement of Work (SOW) suitable for a formal client-facing document. You MUST include all 14 keys listed below, in this exact order, with no omissions. DocumentHeader must never be empty. Each section should be thorough and written with multiple full sentences (not short fragments) to reflect a professional consulting deliverable.\\n\\nPartner Code: @{triggerBody()['text']}\\nClient Company: @{triggerBody()['text_1']}\\nClient Email: @{triggerBody()['text_2']}\\nPrimary Contact: @{triggerBody()['text_3']}\\nService Area: @{triggerBody()['text_4']}\\nSupport Hours: @{triggerBody()['text_5']}\\nProject Duration: @{triggerBody()['text_6']}\\nMicrosoft Environment: @{triggerBody()['text_7']}\\nEngagement Brief: @{triggerBody()['text_8']}\\nPricing Model: @{triggerBody()['text_9']}\\nPayment Terms: @{triggerBody()['text_10']}\\n\\nCreate these sections with the following depth requirements:\\n\\nDocumentHeader: one line containing the document title, client company name, partner code, and project duration, formatted as a single readable string.\\nExecutiveSummary: a rich paragraph (120-180 words) summarizing the engagement, business context, and value proposition.\\nObjectives: one string containing five detailed bullet points separated by \\\\n• , each bullet being a full sentence describing a specific, measurable objective.\\nScopeOfServices: one string containing six detailed bullet points separated by \\\\n• , covering technical, functional, and support scope comprehensively.\\nPhasedRoadmap: one string containing four bullet points separated by \\\\n• , each describing a project phase with approximate duration and key activities.\\nGovernanceModel: a detailed paragraph (80-120 words) describing meeting cadence, escalation paths, reporting structure, and stakeholder roles.\\nAssumptions: one string containing five bullet points separated by \\\\n• , covering technical, resource, and client-dependency assumptions.\\nAcceptanceCriteria: one string containing five bullet points separated by \\\\n• , describing measurable, verifiable completion criteria.\\nOutOfScope: one string containing five bullet points separated by \\\\n• , explicitly excluding adjacent services to prevent scope creep.\\nChangeControl: a detailed paragraph (80-120 words) explaining the change request process, approval workflow, and impact assessment procedure.\\nRisksAndMitigations: one string containing four bullet points separated by \\\\n• , each describing a specific risk paired with its mitigation strategy.\\nCommercialTerms: a detailed paragraph (80-120 words) covering pricing structure, invoicing schedule, currency, and payment terms.\\nDeliverables: one string containing six bullet points separated by \\\\n• , listing concrete, tangible deliverables with brief descriptions.\\nDocumentAuthorisation: a formal paragraph (60-100 words) describing signatory requirements, effective date clause, and mutual agreement language.\\n\\nReturn EXACTLY this JSON object structure with the values filled in:\\n{\\n\\\"DocumentHeader\\\":\\\"\\\",\\n\\\"ExecutiveSummary\\\":\\\"\\\",\\n\\\"Objectives\\\":\\\"\\\",\\n\\\"ScopeOfServices\\\":\\\"\\\",\\n\\\"PhasedRoadmap\\\":\\\"\\\",\\n\\\"GovernanceModel\\\":\\\"\\\",\\n\\\"Assumptions\\\":\\\"\\\",\\n\\\"AcceptanceCriteria\\\":\\\"\\\",\\n\\\"OutOfScope\\\":\\\"\\\",\\n\\\"ChangeControl\\\":\\\"\\\",\\n\\\"RisksAndMitigations\\\":\\\"\\\",\\n\\\"CommercialTerms\\\":\\\"\\\",\\n\\\"Deliverables\\\":\\\"\\\",\\n\\\"DocumentAuthorisation\\\":\\\"\\\"\\n}\"\n    }\n  ]\n}"
+                  }
+                }
+              }
+            },
+            "High_Quality": {
+              "case": "High",
+              "actions": {
+                "Set_variable_2": {
+                  "metadata": {
+                    "operationMetadataId": "83e8f6cb-c37b-4539-848e-96d2a9208e07"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "ClaudePrompt",
+                    "value": "{\n  \"model\": \"claude-sonnet-5\",\n  \"max_tokens\": 20000,\n  \"system\": \"You are a Senior Microsoft Solution Architect and Enterprise Proposal Writer with 15+ years of experience drafting formal Statements of Work for Microsoft Gold Partners. You always follow a fixed narrative pattern (derived from a proven reference SOW) for every section, regardless of which Microsoft technology or service area the engagement covers. You write substantive, detailed, non-repetitive content and strictly respect the word-count target given for each section — never pad with filler, and never fall significantly short of the target. Return ONLY one valid JSON object. Never return markdown. Never return code fences. Never return explanations outside the JSON. Never return arrays or nested objects. Every property value MUST be a single string. Use '\\\\n• ' inside strings for bullet points, and '\\\\n\\\\n' to separate labeled sub-blocks within a single field. Write in formal, enterprise, client-facing business English, using precise technical terminology relevant to the stated Service Area and Microsoft Environment. The response MUST start with '{' and end with '}'.\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Generate a detailed, production-grade Microsoft Statement of Work (SOW). You MUST include all 13 keys listed below, in this exact order, with no omissions. Each section MUST follow the exact structural pattern described for it, AND must meet its stated word-count target. IMPORTANT: the combined length of all 13 field values together must total approximately 4,000-4,500 words. This is a hard document-length requirement — the final document is printed at 11pt with standard one-inch margins and must fill approximately 7-8 pages, so do not under-write any section below its minimum word count.\\n\\nPartner Code: @{triggerBody()['text']}\\nClient Company: @{triggerBody()['text_1']}\\nClient Email: @{triggerBody()['text_2']}\\nPrimary Contact: @{triggerBody()['text_3']}\\nService Area: @{triggerBody()['text_4']}\\nSupport Hours: @{triggerBody()['text_5']}\\nProject Duration: @{triggerBody()['text_6']}\\nMicrosoft Environment: @{triggerBody()['text_7']}\\nEngagement Brief: @{triggerBody()['text_8']}\\nPricing Model: @{triggerBody()['text_9']}\\nPayment Terms: @{triggerBody()['text_10']}\\n\\nSECTION-BY-SECTION PATTERN RULES AND WORD-COUNT TARGETS (total across all 13 fields: 4,000-4,500 words):\\n\\nDocumentHeader (30-50 words): A single line combining the document title ('Statement of Work'), the specific project name derived from the Engagement Brief and Service Area, the Client Company, the Partner Code, the Engagement Type, and the Project Duration.\\n\\nExecutiveSummary (380-480 words): Follow this exact three-part pattern in ONE string — (1) an opening paragraph (3-4 sentences) stating the purpose of the SOW and the business context; (2) a short lead-in sentence ending in a colon, followed by 5-6 bullet points (\\\\n• ) naming the core focus areas of the engagement, derived from the Service Area and Engagement Brief, each bullet expanded to a short phrase (not a single word); (3) two to three closing sentences describing how the underlying Microsoft technology will be leveraged, current pain points it addresses, and the resulting business value.\\n\\nObjectives (280-330 words): A short intro sentence ending in a colon, followed by nine to eleven bullet points (\\\\n• ). Each bullet is a single sentence, action-verb-led (e.g. 'Configure...', 'Enable...', 'Establish...'), expanded with a brief clause explaining the business or operational benefit of that objective — do not write bare one-line fragments.\\n\\nScopeOfServices (850-1050 words): Structure this as 6-7 labeled sub-blocks within ONE string, separated by '\\\\n\\\\n'. Each sub-block follows the pattern 'Sub-Area Name: <one to two-sentence lead-in>\\\\n• bullet\\\\n• bullet\\\\n• bullet\\\\n• bullet\\\\n• bullet' (5-6 bullets per sub-block). Derive the sub-area names from the Service Area and Microsoft Environment. Include one sub-block covering configuration documentation and a knowledge-transfer session.\\n\\nPhasedRoadmap (280-350 words): Four bullet points (\\\\n• ), each following the pattern 'Phase N – <Phase Name> (approx. <duration>): <2-3 sentences describing key activities, entry criteria, and exit/validation criteria for that phase>'. Use phase names in this order: Assessment & Planning, Configuration & Deployment, Validation & Testing, Documentation & Handover. Durations must sum to approximately the stated Project Duration.\\n\\nGovernanceModel (200-250 words): A paragraph covering meeting cadence, a single named point of contact per side, a two-tier escalation path with defined response windows, reporting structure against the Phased Roadmap, and stakeholder roles on both sides.\\n\\nAssumptions (220-270 words): A short intro sentence ending in a colon, followed by eight to nine bullet points (\\\\n• ), each a full sentence covering licensing, identity/environment prerequisites, device/resource availability, connectivity, administrative access, and client-side responsibilities.\\n\\nAcceptanceCriteria (220-270 words): A short intro sentence ending in a colon ('The project will be considered successfully completed upon:'), followed by eight to nine bullet points (\\\\n• ), each a full sentence confirming successful validation of one item defined in ScopeOfServices, in the same order the scope items were introduced.\\n\\nOutOfScope (90-130 words): A short intro sentence ending in a colon ('The following activities are excluded from this engagement unless separately requested:'), followed by ten to fourteen short bullet points (\\\\n• ), each 3-6 words, no full sentences, naming adjacent or advanced services NOT covered.\\n\\nChangeControl (200-250 words): A paragraph describing how either party may submit a Change Request, the information it must contain, how it will be assessed for timeline/effort/cost impact, the approval workflow, and that work only proceeds after written approval from both parties.\\n\\nRisksAndMitigations (250-320 words): Five to six bullet points (\\\\n• ), each following the pattern 'Risk: <1-2 sentence risk description>. Mitigation: <1-2 sentence mitigation strategy>.' — risks must be specific to the Service Area and Microsoft Environment provided, not generic.\\n\\nCommercialTerms (200-250 words): A paragraph stating the engagement is delivered per the given Pricing Model, describing the invoicing cadence tied to project milestones, referencing the given Payment Terms, covering currency and taxes, and noting that Change Request effort is billed separately.\\n\\nDocumentAuthorisation (140-180 words): A paragraph opening with 'By signing below, both parties acknowledge...', covering mutual agreement to scope/deliverables/assumptions/responsibilities/terms, an effective-date clause tied to the date of last signature, confidentiality of the document, and a note that amendments require written execution under the Change Control process.\\n\\nBefore returning your answer, internally verify that the combined word count across all 13 values falls within 4,000-4,500 words, and that no individual section is below its stated minimum. Then return EXACTLY this JSON object structure with the values filled in:\\n{\\n\\\"DocumentHeader\\\":\\\"\\\",\\n\\\"ExecutiveSummary\\\":\\\"\\\",\\n\\\"Objectives\\\":\\\"\\\",\\n\\\"ScopeOfServices\\\":\\\"\\\",\\n\\\"PhasedRoadmap\\\":\\\"\\\",\\n\\\"GovernanceModel\\\":\\\"\\\",\\n\\\"Assumptions\\\":\\\"\\\",\\n\\\"AcceptanceCriteria\\\":\\\"\\\",\\n\\\"OutOfScope\\\":\\\"\\\",\\n\\\"ChangeControl\\\":\\\"\\\",\\n\\\"RisksAndMitigations\\\":\\\"\\\",\\n\\\"CommercialTerms\\\":\\\"\\\",\\n\\\"DocumentAuthorisation\\\":\\\"\\\"\\n}\"\n    }\n  ]\n}"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {
+              "Set_variable_1": {
+                "metadata": {
+                  "operationMetadataId": "8dd15b79-3e4d-43e5-bdc9-4f2f85c3fdb0"
+                },
+                "type": "SetVariable",
+                "inputs": {
+                  "name": "ClaudePrompt",
+                  "value": "{\n  \"model\": \"claude-haiku-4-5-20251001\",\n  \"max_tokens\": 4000,\n  \"temperature\": 0,\n  \"system\": \"You are a Senior Microsoft Solution Architect and Enterprise Proposal Writer. Return ONLY one valid JSON object. Never return markdown. Never return code fences. Never return explanations. Never return arrays or nested objects. Every property value MUST be a string. Use '\\\\n• ' inside strings for bullet lists. The response MUST start with '{' and end with '}'.\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Generate a concise Microsoft Statement of Work.You MUST include all 14 keys listed below, in this order, with no omissions. DocumentHeader must never be empty.\\n\\nPartner Code: @{triggerBody()['text']}\\nClient Company: @{triggerBody()['text_1']}\\nClient Email: @{triggerBody()['text_2']}\\nPrimary Contact: @{triggerBody()['text_3']}\\nService Area: @{triggerBody()['text_4']}\\nSupport Hours: @{triggerBody()['text_5']}\\nProject Duration: @{triggerBody()['text_6']}\\nMicrosoft Environment: @{triggerBody()['text_7']}\\nEngagement Brief: @{triggerBody()['text_8']}\\nPricing Model: @{triggerBody()['text_9']}\\nPayment Terms: @{triggerBody()['text_10']}\\n\\nCreate these sections:\\n\\nDocumentHeader: one line containing the document title, client company name, partner code, and project duration, formatted as a single readable string.\\nExecutiveSummary: one paragraph (max 60 words).\\nObjectives: one string containing three bullet points separated by \\\\n• .\\nScopeOfServices: one string containing three bullet points separated by \\\\n• .\\nPhasedRoadmap: one string containing two bullet points separated by \\\\n• .\\nGovernanceModel: one paragraph.\\nAssumptions: one string containing three bullet points separated by \\\\n• .\\nAcceptanceCriteria: one string containing three bullet points separated by \\\\n• .\\nOutOfScope: one string containing three bullet points separated by \\\\n• .\\nChangeControl: one paragraph.\\nRisksAndMitigations: one string containing two bullet points separated by \\\\n• .\\nCommercialTerms: one paragraph.\\nDeliverables: one string containing four bullet points separated by \\\\n• .\\nDocumentAuthorisation: one paragraph.\\n\\nReturn EXACTLY this JSON object:\\n{\\n\\\"DocumentHeader\\\":\\\"\\\",\\n\\\"ExecutiveSummary\\\":\\\"\\\",\\n\\\"Objectives\\\":\\\"\\\",\\n\\\"ScopeOfServices\\\":\\\"\\\",\\n\\\"PhasedRoadmap\\\":\\\"\\\",\\n\\\"GovernanceModel\\\":\\\"\\\",\\n\\\"Assumptions\\\":\\\"\\\",\\n\\\"AcceptanceCriteria\\\":\\\"\\\",\\n\\\"OutOfScope\\\":\\\"\\\",\\n\\\"ChangeControl\\\":\\\"\\\",\\n\\\"RisksAndMitigations\\\":\\\"\\\",\\n\\\"CommercialTerms\\\":\\\"\\\",\\n\\\"Deliverables\\\":\\\"\\\",\\n\\\"DocumentAuthorisation\\\":\\\"\\\"\\n}\"\n    }\n  ]\n}"
+                }
+              }
+            }
+          },
+          "expression": "@triggerBody()?['text_20']",
+          "metadata": {
+            "operationMetadataId": "b8e8eed7-b084-4020-abbb-8cb041d66684"
+          },
+          "type": "Switch"
+        },
+        "Initialize_variable": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "1f9820ca-0409-41ec-aeaa-dafe4be2893a"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "ClaudePrompt",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

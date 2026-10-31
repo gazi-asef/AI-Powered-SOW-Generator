@@ -1,0 +1,345 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline-1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "ag_SharePointConnector"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_office365-1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "ag_OutlookConnector"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "SOW Site (ag_SOWSite)": {
+          "defaultValue": "https://productivity365.sharepoint.com/sites/P365-SOW-Central",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_SOWSite"
+          }
+        },
+        "SOW Requests (ag_SOWRequests)": {
+          "defaultValue": "07a6d66a-cf41-49dc-ac86-1c7bba5320cf",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_SOWRequests"
+          }
+        },
+        "SOW Repository (ag_shared_sharepointonline_72d473563d73410fa6c41c13b40a206d)": {
+          "defaultValue": "7a964922-0b5a-4b19-aa65-134111297ff5",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_shared_sharepointonline_72d473563d73410fa6c41c13b40a206d"
+          }
+        },
+        "Partners (ag_shared_sharepointonline_dc98c069cd0743368b8f16a8c3cfc5fa)": {
+          "defaultValue": "c2b47177-a0d3-4a46-baf6-22a72c899b5e",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ag_shared_sharepointonline_dc98c069cd0743368b8f16a8c3cfc5fa"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "1518b622-2848-464a-9701-f6188c6d3999"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "SendTo",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "number": {
+                  "title": "SOWRequestId",
+                  "type": "number",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter a number",
+                  "x-ms-content-hint": "NUMBER"
+                },
+                "number_1": {
+                  "title": "DocId",
+                  "type": "number",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter a number",
+                  "x-ms-content-hint": "NUMBER"
+                },
+                "text_1": {
+                  "description": "Please enter your input",
+                  "title": "ManagerName",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_2": {
+                  "description": "Please enter your input",
+                  "title": "SenderName",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_3": {
+                  "description": "Please enter your input",
+                  "title": "Mode",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_4": {
+                  "title": "SenderEmail",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "number",
+                "number_1",
+                "text_1",
+                "text_2",
+                "text_3",
+                "text_4"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Get_item": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "43e48a5d-59b5-44dc-9e86-0b605027b650"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "table": "@parameters('SOW Requests (ag_SOWRequests)')",
+              "id": "@triggerBody()['number']"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "GetItem",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          }
+        },
+        "Switch": {
+          "runAfter": {
+            "Get_file_content": [
+              "Succeeded"
+            ]
+          },
+          "cases": {
+            "Email_for_Approval": {
+              "case": "ApprovalEmail",
+              "actions": {
+                "Compose": {
+                  "metadata": {
+                    "operationMetadataId": "4809ef15-fa16-4ae0-baa3-6c03cb0a7221"
+                  },
+                  "type": "Compose",
+                  "inputs": "@concat(\r\n  'https://apps.powerapps.com/play/e/4afad3b1-20bc-e0ae-be1b-7c1af82584d8/a/a7637913-9faf-45f5-adb3-c1556d906cf2?tenantId=71605808-d259-4804-8b4e-62b37d4d78d5&hint=d2c2bb7f-426f-4aee-9ad3-75afa3517397&sourcetime=1782727961658&DocId=',\r\n  triggerBody()['number_1'],\r\n  '&RecId=',\r\n  triggerBody()?['number']\r\n)"
+                },
+                "Send_an_email_(V2)": {
+                  "runAfter": {
+                    "Compose": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "3a5f1fa5-028e-406a-8953-1b26fba57799"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "emailMessage/To": "@triggerBody()['text']",
+                      "emailMessage/Subject": "Approval Request – Statement of Work (SOW)",
+                      "emailMessage/Body": "<table cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f1f5f9;padding:36px 0;\">\n  <tbody><tr>\n    <td>\n      <table cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.09);\">\n\n        <!-- TOP BAR -->\n        <tbody><tr>\n          <td style=\"background:#0f2d6e;height:5px;font-size:0;\">&nbsp;</td>\n        </tr>\n\n        <!-- HEADER -->\n        <tr>\n          <td style=\"background:#0f2d6e;padding:30px 40px 28px 40px;\">\n            <table cellpadding=\"0\" cellspacing=\"0\">\n              <tbody><tr>\n                <td>\n                  <p style=\"margin:0 0 4px 0;font-size:11px;color:#93c5fd;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;\">Statement of Work</p>\n                  <h1 style=\"margin:0;font-size:22px;font-weight:700;color:#ffffff;\">Approval Request</h1>\n                </td>\n                <td>\n                  <span style=\"font-size:32px;\">📋</span>\n                </td>\n              </tr>\n            </tbody></table>\n          </td>\n        </tr>\n\n        <!-- GREETING -->\n        <tr>\n          <td style=\"padding:28px 40px 0 40px;\">\n            <p style=\"margin:0 0 8px 0;font-size:15px;color:#1e293b;\">Dear <strong>@{triggerBody()?['text_1']}</strong>,</p>\n            <p style=\"margin:0;font-size:14px;color:#64748b;line-height:1.7;\">I hope you're doing well. Kindly review the Statement of Work details below and share your approval to proceed.</p>\n          </td>\n        </tr>\n\n        <!-- ENGAGEMENT DETAILS SECTION -->\n        <tr>\n          <td style=\"padding:24px 40px 0 40px;\">\n            <p style=\"margin:0 0 12px 0;font-size:10px;font-weight:700;color:#0f2d6e;text-transform:uppercase;letter-spacing:2.5px;\">Engagement Details</p>\n            <table cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;\">\n\n              <tbody><tr style=\"background:#f8fafc;\">\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">SOW ID</p>\n                </td>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/Title']}</p>\n                </td>\n              </tr>\n\n              <tr>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">Partner Name</p>\n                </td>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/Partner/Value']}</p>\n                </td>\n              </tr>\n\n              <tr style=\"background:#f8fafc;\">\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">Client Name</p>\n                </td>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/ClientName']}</p>\n                </td>\n              </tr>\n\n              <tr>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">Service Area</p>\n                </td>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/ServiceAreas/Value']}</p>\n                </td>\n              </tr>\n\n              <tr style=\"background:#f8fafc;\">\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">Engagement Type</p>\n                </td>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/EngagementType/Value']}</p>\n                </td>\n              </tr>\n\n              <tr>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">Environment</p>\n                </td>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/Environment/Value']}</p>\n                </td>\n              </tr>\n\n              <tr style=\"background:#f8fafc;\">\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">Duration</p>\n                </td>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/TotalDuration']}</p>\n                </td>\n              </tr>\n\n              <tr>\n                <td style=\"padding:11px 16px;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">Number of Phases</p>\n                </td>\n                <td style=\"padding:11px 16px;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/NumberOfPhases']}</p>\n                </td>\n              </tr>\n\n            </tbody></table>\n          </td>\n        </tr>\n\n        <!-- ENGAGEMENT BRIEF -->\n        <tr>\n          <td style=\"padding:16px 40px 0 40px;\">\n            <table cellpadding=\"0\" cellspacing=\"0\" style=\"background:#eff6ff;border-left:3px solid #0f2d6e;border-radius:0 6px 6px 0;\">\n              <tbody><tr>\n                <td style=\"padding:14px 18px;\">\n                  <p style=\"margin:0 0 5px 0;font-size:10px;font-weight:700;color:#0f2d6e;text-transform:uppercase;letter-spacing:2px;\">Engagement Brief</p>\n                  <p style=\"margin:0;font-size:13px;color:#334155;line-height:1.7;\">@{outputs('Get_item')?['body/EngagementBrief']}</p>\n                </td>\n              </tr>\n            </tbody></table>\n          </td>\n        </tr>\n\n        <!-- PRICING SECTION -->\n        <tr>\n          <td style=\"padding:24px 40px 0 40px;\">\n            <p style=\"margin:0 0 12px 0;font-size:10px;font-weight:700;color:#059669;text-transform:uppercase;letter-spacing:2.5px;\">Pricing Summary</p>\n            <table cellpadding=\"0\" cellspacing=\"0\" style=\"border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;\">\n\n              <tbody><tr style=\"background:#f8fafc;\">\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">Pricing Model</p>\n                </td>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/PricingModel/Value']}</p>\n                </td>\n              </tr>\n\n              <tr>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">Phase Values</p>\n                </td>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/PhaseValues']}</p>\n                </td>\n              </tr>\n\n              <tr style=\"background:#f8fafc;\">\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:1px;\">Payment Terms</p>\n                </td>\n                <td style=\"padding:11px 16px;border-bottom:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:13px;color:#1e293b;font-weight:600;\">@{outputs('Get_item')?['body/PaymentTerms']}</p>\n                </td>\n              </tr>\n\n              <tr style=\"background:#f0fdf4;\">\n                <td style=\"padding:13px 16px;border-right:1px solid #e2e8f0;\">\n                  <p style=\"margin:0;font-size:11px;color:#059669;font-weight:700;text-transform:uppercase;letter-spacing:1px;\">Total Value</p>\n                </td>\n                <td style=\"padding:13px 16px;\">\n                  <p style=\"margin:0;font-size:15px;color:#047857;font-weight:800;\">@{outputs('Get_item')?['body/TotalValue']}</p>\n                </td>\n              </tr>\n\n            </tbody></table>\n          </td>\n        </tr>\n\n        <!-- POWER APPS BUTTON -->\n        <tr>\n          <td style=\"padding:28px 40px 0 40px;\">\n            <table cellpadding=\"0\" cellspacing=\"0\">\n              <tbody><tr>\n                <td style=\"background:#0f2d6e;border-radius:7px;\">\n                  <a href=\"@{outputs('Compose')}\" style=\"display:inline-block;padding:13px 32px;font-size:14px;font-weight:700;color:#ffffff;text-decoration:none;letter-spacing:0.3px;\">\n                    🚀 &nbsp; Open SOW in Power Apps\n                  </a>\n                </td>\n              </tr>\n            </tbody></table>\n          </td>\n        </tr>\n\n        <!-- CLOSING -->\n        <tr>\n          <td style=\"padding:26px 40px 0 40px;\">\n            <p style=\"margin:0 0 14px 0;font-size:14px;color:#64748b;line-height:1.7;\">Kindly <strong style=\"color:#1e293b;\">approve or share your feedback</strong> so we can move forward. Feel free to reach out if you need any clarification.</p>\n            <p style=\"margin:0;font-size:14px;color:#64748b;\">Thank you for your time.</p>\n            <p style=\"margin:14px 0 0 0;font-size:14px;color:#64748b;\">Regards,</p>\n            <p style=\"margin:3px 0 0 0;font-size:15px;font-weight:700;color:#0f2d6e;\">@{triggerBody()?['text_2']}</p>\n            <p style=\"margin:2px 0 0 0;font-size:12px;color:#94a3b8;\">[Designation] &nbsp;·&nbsp; [Email] &nbsp;·&nbsp; [Phone]</p>\n          </td>\n        </tr>\n\n        <!-- FOOTER -->\n        <tr>\n          <td style=\"padding:24px 40px 0 40px;\">\n            <hr style=\"border:none;border-top:1px solid #e2e8f0;margin:0;\">\n          </td>\n        </tr>\n        <tr>\n          <td style=\"padding:14px 40px 24px 40px;\">\n            <p style=\"margin:0;font-size:11px;color:#cbd5e1;\">[Company Name] &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; Automated Notification</p>\n          </td>\n        </tr>\n\n        <!-- BOTTOM BAR -->\n        <tr>\n          <td style=\"background:#0f2d6e;height:4px;font-size:0;\">&nbsp;</td>\n        </tr>\n\n      </tbody></table>\n    </td>\n  </tr>\n</tbody></table>",
+                      "emailMessage/Importance": "Normal"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365",
+                      "operationId": "SendEmailV2",
+                      "connectionName": "shared_office365-1"
+                    }
+                  }
+                }
+              }
+            },
+            "Send_email_to_the_Partner": {
+              "case": "SendToPartner",
+              "actions": {
+                "Get_item_2": {
+                  "metadata": {
+                    "operationMetadataId": "2db97cf9-163b-4609-988c-4a54362feb7b"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+                      "table": "@parameters('Partners (ag_shared_sharepointonline_dc98c069cd0743368b8f16a8c3cfc5fa)')",
+                      "id": "@outputs('Get_item')?['body/Partner/Id']"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                      "operationId": "GetItem",
+                      "connectionName": "shared_sharepointonline-1"
+                    }
+                  }
+                },
+                "Send_an_email_(V2)_3": {
+                  "runAfter": {
+                    "Get_item_2": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "8b5582cc-dbe3-4a9d-ad41-238ebdfd7687"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "emailMessage/To": "@outputs('Get_item_2')?['body/ContactEmail']",
+                      "emailMessage/Subject": "SOW for client ( @{outputs('Get_item')?['body/ClientName']} )",
+                      "emailMessage/Body": "<p>Hi @{outputs('Get_item_2')?['body/ContactName']},<br>\nHere is your SOW for <strong></strong><strong>@{outputs('Get_item')?['body/ClientName']}</strong><strong><br>\nSOW ID : </strong><strong>@{outputs('Get_item')?['body/Title']}</strong><strong><br>\n</strong><span style=\"color: rgb(97,189,109)\"><strong>Please find it attched to this email.</strong></span><strong><br>\n<br>\n</strong>Best Regards,<br>\nProductivity365<strong><br>\n</strong></p>",
+                      "emailMessage/Attachments": [
+                        {
+                          "Name": "@outputs('Get_file_properties')?['body/{FilenameWithExtension}']",
+                          "ContentBytes": "@body('Get_file_content')"
+                        }
+                      ],
+                      "emailMessage/Importance": "Normal"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365",
+                      "operationId": "SendEmailV2",
+                      "connectionName": "shared_office365-1"
+                    }
+                  }
+                }
+              }
+            },
+            "Send_SOW_to_the_user_via_email": {
+              "case": "SendToUser",
+              "actions": {
+                "Send_an_email_(V2)_2": {
+                  "metadata": {
+                    "operationMetadataId": "c810d355-ca87-4650-8a73-a7ffd6e857cc"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "emailMessage/To": "@triggerBody()['text_4']",
+                      "emailMessage/Subject": "Generated SOW Document",
+                      "emailMessage/Body": "<p>Hi @{triggerBody()['text_2']},<br>\n<br>\nHere is your generated SOW (Statement of Work). <br>\nSOW ID : @{outputs('Get_item')?['body/Title']}<br>\n<span style=\"color: rgb(97,189,109)\">Please find it attached to this email.</span></p>",
+                      "emailMessage/Attachments": [
+                        {
+                          "Name": "@outputs('Get_file_properties')?['body/{FilenameWithExtension}']",
+                          "ContentBytes": "@body('Get_file_content')"
+                        }
+                      ],
+                      "emailMessage/Importance": "Normal"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365",
+                      "operationId": "SendEmailV2",
+                      "connectionName": "shared_office365-1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {}
+          },
+          "expression": "@triggerBody()?['text_3']",
+          "metadata": {
+            "operationMetadataId": "7cdfe688-28dc-46eb-b8c9-c11868c06fd7"
+          },
+          "type": "Switch"
+        },
+        "Get_file_properties": {
+          "runAfter": {
+            "Get_item": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0b4c63e0-8832-4452-96e4-3a399516457e"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "table": "@parameters('SOW Repository (ag_shared_sharepointonline_72d473563d73410fa6c41c13b40a206d)')",
+              "id": "@triggerBody()['number_1']"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "GetFileItem",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          }
+        },
+        "Get_file_content": {
+          "runAfter": {
+            "Get_file_properties": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "69caf5ea-d1e5-46bb-9452-4ee62259d789"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "@parameters('SOW Site (ag_SOWSite)')",
+              "id": "@outputs('Get_file_properties')?['body/{Identifier}']",
+              "inferContentType": true
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+              "operationId": "GetFileContent",
+              "connectionName": "shared_sharepointonline-1"
+            }
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}
