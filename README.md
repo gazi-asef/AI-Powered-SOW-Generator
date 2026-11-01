@@ -103,7 +103,7 @@ Users can preview the generated Statement of Work before accepting it or proceed
 
 The manager selection interface allows users to choose the appropriate person for reviewing and approving the generated SOW.
 
-![Manager Selection](<docs/screenshots/desktop/SOWG Manager Selection View.png>)
+![Manager Selection](<docs/screenshots/desktop/SOWG  Manager Selection View.png>)
 
 ### 6. Approval Email
 
